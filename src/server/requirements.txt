@@ -1,0 +1,54 @@
+# === CORE ===
+fastapi>=0.95.2
+starlette>=0.27.0
+pydantic>=1.10.13
+typing_extensions>=4.5.0
+
+# === SERVER ===
+uvicorn>=0.23.2
+gunicorn>=21.2.0
+
+# === DATABASE ===
+sqlalchemy>=2.0.25
+email-validator
+# === VECTOR STORE ===
+chromadb>=0.4.22
+hnswlib>=0.8.0
+
+# === HTTP / ASYNC ===
+anyio>=3.7.1
+httpx>=0.24.1
+h11>=0.14.0
+
+# === SECURITY ===
+bcrypt>=4.1.2
+passlib==1.7.4
+python-jose==3.3.0
+
+# === UTILITIES ===
+python-dotenv>=1.0.1
+requests>=2.31.0
+tqdm>=4.66.2
+numpy>=1.26.4
+pandas>=2.1.4
+scikit-learn>=1.3.2
+scipy>=1.11.4
+pypdf
+python-docx
+python-pptx
+rank-bm25
+flashrank
+
+# === GOOGLE GEMINI ===
+google-generativeai>=0.8.0
+
+# === LANGCHAIN ===
+langchain>=0.1.16
+langchain-community>=0.0.36
+sentence-transformers
+
+# === PAYMENTS ===
+razorpay>=1.4.2
+
+psycopg2-binary
+passlib[bcrypt]
