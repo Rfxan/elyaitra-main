@@ -4,8 +4,8 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Provider selection
-# Options: 'gemini' | 'ollama' | 'groq'
-LLM_PROVIDER = os.getenv("LLM_PROVIDER", "groq").lower()
+# Options: 'gemini' | 'ollama' | 'groq' | 'mock'
+LLM_PROVIDER = os.getenv("LLM_PROVIDER", "mock").lower()
 
 # Model Names
 GEMINI_DEFAULT_MODEL = "models/gemini-2.1-flash"

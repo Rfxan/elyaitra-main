@@ -1,9 +1,10 @@
 import os
 from dotenv import load_dotenv
+from app.ai_engine.providers.base import LLMProvider
 from app.ai_engine.providers.gemini import GeminiProvider
 from app.ai_engine.providers.ollama import OllamaProvider
 from app.ai_engine.providers.groq import GroqProvider
-from app.ai_engine.providers.base import LLMProvider
+from app.ai_engine.providers.mock import MockProvider
 from app.ai_engine import config
 
 load_dotenv()
@@ -34,9 +35,11 @@ def get_provider() -> LLMProvider:
                 print(f"⚠️ Ollama provider setup failed ({e}). Falling back to Gemini.")
                 return _get_gemini_provider()
             else:
-                raise e
-    
-    return _get_gemini_provider()
+                print(f"⚠️ Ollama provider setup failed ({e}). Using mock provider for demo.")
+                return MockProvider()
+
+    if provider_type == "mock":
+        return MockProvider()
 
 def get_embedding_provider() -> LLMProvider:
     """
@@ -61,13 +64,18 @@ def get_embedding_provider() -> LLMProvider:
     return get_provider()
 
 
-def _get_gemini_provider() -> GeminiProvider:
+def _get_gemini_provider() -> LLMProvider:
     api_key = os.getenv("GEMINI_API_KEY")
     if not api_key:
-        raise RuntimeError("GEMINI_API_KEY not set in environment")
-    
-    return GeminiProvider(
-        api_key=api_key,
-        model_name=config.GEMINI_DEFAULT_MODEL,
-        embedding_model=config.GEMINI_EMBEDDING_MODEL
-    )
+        print("⚠️ GEMINI_API_KEY not set. Using mock provider for demo purposes.")
+        return MockProvider()
+
+    try:
+        return GeminiProvider(
+            api_key=api_key,
+            model_name=config.GEMINI_DEFAULT_MODEL,
+            embedding_model=config.GEMINI_EMBEDDING_MODEL
+        )
+    except Exception as e:
+        print(f"⚠️ Gemini provider failed ({e}). Using mock provider for demo.")
+        return MockProvider()

@@ -52,10 +52,12 @@ Elyaitra uses a **multi-step agentic loop** powered by local LLMs (via Ollama) t
 
 ## 🛠️ Tech Stack
 
-- **Frontend**: Next.js, TypeScript, Tailwind CSS
-- **Backend**: Python (FastAPI), Node.js (Next API Routes)
-- **AI/ML**: Ollama, Google Gemini API, LangChain-style reasoning
-- **Storage**: Vector Indexing for Security Protocols
+- **Frontend**: Next.js 16, React 19, TypeScript, Tailwind CSS
+- **Backend**: Python 3.8+ (FastAPI), Node.js (Next.js API Routes)
+- **AI/ML**: Groq API, Google Gemini API, Ollama (local LLMs)
+- **Database**: SQLite (development), PostgreSQL (production)
+- **Vector Store**: ChromaDB for embeddings and retrieval
+- **Security**: bcrypt, JWT authentication, custom security middleware
 
 ---
 
@@ -69,31 +71,132 @@ Elyaitra uses a **multi-step agentic loop** powered by local LLMs (via Ollama) t
 
 ## 🚀 Quick Start
 
-### **1. Configure Groq**
-Ensure you have a Groq API Key from [console.groq.com](https://console.groq.com/).
+### **Prerequisites**
+- **Node.js** 18+ (for frontend)
+- **Python** 3.8+ (for backend)
+- **Git** (to clone the repository)
+
+### **Quick Setup (Recommended for Hackathon Evaluation)**
+For fastest setup, run the automated setup script:
 ```bash
-# Add your key to .env
-GROQ_API_KEY=gsk_...
+# Clone the repository
+git clone <repository-url>
+cd elyaitra-main
+
+# Run the setup script (installs all dependencies and initializes database)
+./setup.sh
 ```
 
-### **2. Environment Configuration**
-Copy the example environment file and fill in your details:
+### **Manual Setup**
+If you prefer manual setup or the script doesn't work on your system:
 ```bash
-cp .env.example .env
-```
+# Navigate to frontend directory
+cd src/client
 
-### **3. Install & Run**
-```bash
 # Install dependencies
 npm install
 
-# Run the project
+# Start development server
 npm run dev
 ```
+The frontend will be available at: `http://localhost:3000`
+
+### **3. Backend Setup (FastAPI)**
+```bash
+# Navigate to backend directory
+cd ../server
+
+# Create virtual environment
+python -m venv .venv
+
+# Activate virtual environment
+# On Linux/Mac:
+source .venv/bin/activate
+# On Windows:
+# .venv\Scripts\activate
+
+# Install Python dependencies
+pip install -r requirements.txt
+
+# Start the FastAPI server
+python -m uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+```
+The backend API will be available at: `http://localhost:8000`
+
+### **4. Environment Configuration (Optional)**
+For AI features, create a `.env` file in the root directory:
+```bash
+# Copy example environment file
+cp .env.example .env
+
+# Edit .env and add your API keys (required for AI features)
+GROQ_API_KEY=your_groq_api_key_here
+LLM_PROVIDER=groq  # Options: groq, gemini, ollama
+```
+
+### **5. Access the Application**
+- **Frontend Dashboard**: http://localhost:3000
+- **Backend API Docs**: http://localhost:8000/docs
+- **Health Check**: http://localhost:8000/health
+
+### **Troubleshooting**
+- **Frontend build errors**: Ensure you're in the `src/client` directory and have run `npm install`
+- **Backend import errors**: Make sure the virtual environment is activated and all dependencies are installed
+- **Port conflicts**: Change ports if 3000 or 8000 are already in use
+- **AI features not working**: Check that your `.env` file has valid API keys
+
+### **Development Commands**
+```bash
+# Frontend
+cd src/client
+npm run build    # Build for production
+npm run start    # Start production server
+npm run lint     # Run ESLint
+
+# Backend
+cd src/server
+python -m pytest  # Run tests (if available)
+```
+
+### **What to Expect**
+- **Out of the Box**: The system runs immediately with mock AI responses demonstrating all features
+- **With API Keys**: Full AI-powered threat detection, investigation, and response capabilities
+- **Database**: SQLite database is automatically created and populated
+- **Ports**: Frontend on 3000, Backend on 8000
+
+### **Key Features to Evaluate**
+1. **Real-time Dashboard**: Live threat monitoring and security metrics
+2. **AI Investigation**: Autonomous threat analysis and reasoning (mock responses show the interface)
+3. **Interactive Defense**: Manual override and response planning
+4. **Multi-turn AI**: Agentic loop for complex threat scenarios
+5. **Security Logging**: Comprehensive audit trail and event correlation
 
 ---
 
-## 🏁 Pre-Submission Checklist
+## 📁 Project Structure
+
+```
+elyaitra-main/
+├── src/
+│   ├── client/          # Next.js Frontend
+│   │   ├── src/
+│   │   │   ├── app/     # Next.js App Router
+│   │   │   ├── components/  # React Components
+│   │   │   └── lib/     # Utilities & Libraries
+│   │   └── package.json
+│   └── server/          # FastAPI Backend
+│       ├── app/
+│       │   ├── ai_engine/    # AI/ML Components
+│       │   ├── api/          # API Endpoints
+│       │   ├── core/         # Core Configuration
+│       │   ├── db/           # Database Models
+│       │   └── security/     # Security Modules
+│       └── requirements.txt
+├── data/                # Training Data
+└── .env.example         # Environment Variables Template
+```
+
+---
 
 - [x] Code strictly follows the `/src` structure.
 - [x] All dependencies listed in `package.json` and `requirements.txt`.
